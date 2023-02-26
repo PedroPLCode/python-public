@@ -1,6 +1,6 @@
 """Simple Calculator
 Author: Pedro
-Last update: 23.02.2023
+Last update: 26.02.2023
 Any comments welcome :)
 """
 

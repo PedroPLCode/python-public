@@ -1,6 +1,6 @@
 """Currency Exchange Calculator
 Author: Pedro
-Last update: 23.02.2023
+Last update: 26.02.2023
 
 One of my self learning, small projects.
 First version had 420 lines and was using only variables, 
