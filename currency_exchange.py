@@ -9,18 +9,18 @@ Any comments welcome :)
 """
 
 currency_dict = {
-    'pln': {'pln / eur': 4.76,
-            'pln / gbp': 5.36,
-            'pln / usd': 4.45, },
-    'eur': {'eur / pln': 0.21,
-            'eur / usd': 1.07,
-            'eur / gbp': 0.89, },
-    'gbp': {'gbp / pln': 0.19,
-            'gbp / eur': 1.13,
-            'gbp / usd': 1.20},
-    'usd': {'usd / pln': 0.22,
-            'usd / eur': 1.07,
-            'usd / gbp': 0.83, },
+    'pln': {'eur': 4.76,
+            'gbp': 5.36,
+            'usd': 4.45, },
+    'eur': {'pln': 0.21,
+            'usd': 1.07,
+            'gbp': 0.89, },
+    'gbp': {'pln': 0.19,
+            'eur': 1.13,
+            'usd': 1.20},
+    'usd': {'pln': 0.22,
+            'eur': 1.07,
+            'gbp': 0.83, },
 }
 
 
@@ -87,7 +87,7 @@ def show_currencies(currency, dict):
     for key, values in dict.items():
         for key_curr, val_curr in values.items():
             if currency == key:
-                print(f"Currency {key_curr.upper()}: {round(val_curr, 2)}")
+                print(f"Currency {key.upper()} / {key_curr.upper()}: {round(val_curr, 2)}")
 
 
 def change_currencies(currency, dict):
@@ -97,12 +97,12 @@ def change_currencies(currency, dict):
             if currency == key:
 
                 while True:
-                    change = str(input(f"\nDo you want to change {key_curr.upper()} currency? "
+                    change = str(input(f"\nDo you want to change {key.upper()} / {key_curr.upper()} currency? "
                                        "Answer y / n  "))
                     change = change.lower().strip()
 
                     if change == "y" or change == "yes":
-                        new = input(f"Enter new {key_curr.upper()} currency: ")
+                        new = input(f"Enter new {key.upper()} / {key_curr.upper()} currency: ")
                         new = convert_input_to_float(new)
 
                         if check_input_type(new):
@@ -112,16 +112,16 @@ def change_currencies(currency, dict):
 
                         values[key_curr] = round(new, 2)
                         print(
-                            f"Currency {key_curr.upper()} changed to {str(round(new, 2))}")
+                            f"Currency {key.upper()} / {key_curr.upper()} changed to {str(round(new, 2))}")
                         break
 
                     elif change == "n" or change == "no":
-                        print(f"Currency {key_curr.upper()} not changed.")
+                        print(f"Currency {key.upper()} / {key_curr.upper()} not changed.")
                         break
 
                     else:
                         print(
-                            f"Wrong answer. Currency {key_curr.upper()} not changed.")
+                            f"Wrong answer. Currency {key.upper()} / {key_curr.upper()} not changed.")
 
 
 def currnecy_exchange(currency, dict):
@@ -149,7 +149,7 @@ def currnecy_exchange(currency, dict):
 
                 print(
                     f"{str(round(amount, 2))} {(currency.upper())} "
-                    f"equals: {str(result)} {key_curr[-3:].upper()}")
+                    f"equals: {str(result)} {key_curr.upper()}")
 
 
 def get_options(dict):
