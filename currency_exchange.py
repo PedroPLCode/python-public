@@ -98,7 +98,7 @@ def change_currencies(currency, dict):
 
                 while True:
                     change = str(input(f"\nDo you want to change {key.upper()} / {key_curr.upper()} currency? "
-                                       "\nAnswer y / n  "))
+                                       "Answer y / n  "))
                     change = change.lower().strip()
 
                     if change == "y" or change == "yes":
