@@ -98,7 +98,7 @@ def change_currencies(currency, dict):
 
                 while True:
                     change = str(input(f"\nDo you want to change {key.upper()} / {key_curr.upper()} currency? "
-                                       "Answer y / n  "))
+                                       "\nAnswer y / n  "))
                     change = change.lower().strip()
 
                     if change == "y" or change == "yes":
@@ -139,7 +139,7 @@ def currnecy_exchange(currency, dict):
             continue
         else:
             amount = float(amount)
-            if float(amount) < 0.1:
+            if amount < 0.1:
                 print(f"Wrong. You Can't exchange less than 0.1 {currency.upper()}.")
                 continue
             break
