@@ -50,6 +50,9 @@ def count_again():
 
 def calculate(number1, operation, number2):
     """Making a calculation ,depending on operation input. Returns result"""
+    if operation == '/' and number2 == 0:
+        result = str("Wrong. You can't divide by 0.")
+        return result
     if operation == "+":
         result = number1 + number2
     elif operation == "-":
