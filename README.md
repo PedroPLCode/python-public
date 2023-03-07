@@ -3,8 +3,8 @@
 My simple self-learning projects. Still improving.
 Any comments welcome :)
 
-simple_calculator
+simple_calculator - my first Python program.
 
-currency_exchange
+currency_exchange - second :)
 
-pygame_unicorn
+unicorns_forever - simple game, made with Eric Matthes Python Course book. pygame.
