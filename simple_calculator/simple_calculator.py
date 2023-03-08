@@ -12,7 +12,7 @@ def main():
         number1, number2, operation = get_input()
         if check_input_type(number1) or check_input_type(number2):
             continue
-        print(f"Result: {calculate(number1, operation, number2)}\n")
+        calculate(number1, operation, number2)
 
 
 def count_again():
@@ -52,8 +52,7 @@ def calculate(number1, operation, number2):
 
     if operation == '/' and number2 == 0:
         result = str("Wrong. You can't divide by 0.")
-        return result
-    if operation == "+":
+    elif operation == "+":
         result = number1 + number2
     elif operation == "-":
         result = number1 - number2
@@ -66,7 +65,7 @@ def calculate(number1, operation, number2):
     else:
         result = str("Wrong. Operation not supported.")
         print_info()
-    return result
+    print(f"Result: {result}\n")
 
 
 def check_input_type(input):
