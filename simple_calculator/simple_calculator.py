@@ -5,29 +5,13 @@ Any comments welcome :)
 """
 
 def main():
-    
-    print("\n--------Welcome--------\n"
-          "---Simple-calculator---\n"
-          "---------------pedro-v3")
-
+    """Main calculator body."""
+    print_welcome()
     print_info()
-
     while count_again():
-
-        user_string = input("Enter operation: ")
-        list = user_string.split()
-
-        number1 = convert_input_to_float(list[0])
-        number2 = convert_input_to_float(list[2])
-        operation = list[1]
-
+        number1, number2, operation = get_input()
         if check_input_type(number1) or check_input_type(number2):
             continue
-
-        number1 = float(number1)
-        number2 = float(number2)
-        operation = str(operation)
-
         print(f"Result: {calculate(number1, operation, number2)}\n")
 
 
@@ -37,7 +21,7 @@ def count_again():
         answer = input("Continue? Enter y to count or q to quit? ")
         answer = answer.strip().lower()
         if answer == "q" or answer == "quit":
-            print("Ok. Quit")
+            print("Ok. Quit\n")
             return False
             break
         elif answer == "y" or answer == "yes":
@@ -45,11 +29,27 @@ def count_again():
             return True
             break
         else:
-            print("Wrong answer.")
+            print("Wrong answer.\n")
+
+
+def get_input():
+    """Gets user input numbers and operation to count."""
+    user_string = input("Enter operation: ")
+    list = user_string.split()
+
+    number1 = convert_input_to_float(list[0])
+    number2 = convert_input_to_float(list[2])
+    operation = list[1]
+
+    return number1, number2, operation
 
 
 def calculate(number1, operation, number2):
     """Making a calculation ,depending on operation input. Returns result"""
+    number1 = float(number1)
+    number2 = float(number2)
+    operation = str(operation)
+
     if operation == '/' and number2 == 0:
         result = str("Wrong. You can't divide by 0.")
         return result
@@ -102,6 +102,13 @@ def print_info():
     print("\nEnter first number, operation and second number."
           "\ndivided by space (for example 2 + 3)"
           "\nsupperted operations: + - / * %\n")
+    
+
+def print_welcome():
+    """Prints welcome message."""
+    print("\n--------Welcome--------\n"
+          "---Simple-calculator---\n"
+          "---------------pedro-v3")
 
 
 main()
