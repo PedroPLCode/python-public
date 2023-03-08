@@ -8,8 +8,8 @@ class Settings:
         self.unicorn_speed_left_right = 1.5
         self.unicorn_speed_up_down = 1
 
-        self.bullet_speed = 2
-        self.bullet_width = 3
+        self.bullet_speed = 1
+        self.bullet_width = 10
         self.bullet_height = 15
         self.bullet_color = (60, 60, 60)
         self.bullets_allowed = 5
