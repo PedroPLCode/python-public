@@ -4,6 +4,7 @@ import pygame
 from settings import Settings
 from unicorn import Unicorn
 from bullet import Bullet
+from troll import Troll
 
 class UnicornsForever:
     """Main class for game menagment."""
@@ -20,6 +21,9 @@ class UnicornsForever:
         
         self.unicorn = Unicorn(self)
         self.bullets = pygame.sprite.Group()
+        self.trolls = pygame.sprite.Group()
+
+        self._create_hord()
 
     def run_game(self):
         """Game main loop."""
@@ -79,6 +83,30 @@ class UnicornsForever:
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
 
+    def _create_hord(self):
+        """Creating Trolls Hord."""
+        troll = Troll(self)
+        troll_width, troll_height = troll.rect.size
+        available_space_x = self.settings.screen_width - (2 * troll_width)
+        number_trolls_x = available_space_x // (2 * troll_width)
+
+        unicorn_height = self.unicorn.rect.height
+        available_space_y = (self.settings.screen_height - (3 * troll_height) - unicorn_height)
+        number_rows = available_space_y // (2 * troll_height)
+
+        for row_number in range(number_rows):
+            for troll_number in range(number_trolls_x):
+                self._create_troll(troll_number, row_number)
+
+    def _create_troll(self, troll_number, row_number):
+        """Creating troll and location in a row."""
+        troll = Troll(self)
+        troll_width, troll_height = troll.rect.size
+        troll.x = troll_width + 2 * troll_width * troll_number
+        troll.rect.x = troll.x
+        troll.rect.y = troll.rect.height + 2 * troll.rect.height * row_number
+        self.trolls.add(troll)
+
     def _update_screen(self):
         """Updating screen view."""
         self.screen.fill(self.settings.bg_color) # kolor tła , zrobic inny
@@ -86,6 +114,8 @@ class UnicornsForever:
 
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
+        
+        self.trolls.draw(self.screen)
 
         pygame.display.flip() # ostatni ekran
 
