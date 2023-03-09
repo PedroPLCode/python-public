@@ -8,6 +8,7 @@ class Troll(Sprite):
         """Troll initialization and location."""
         super().__init__()
         self.screen = uf_game.screen
+        self.settings = uf_game.settings
 
         self.image = pygame.image.load('/home/pedro/Dokumenty/python-public/unicorns_forever/images/troll.bmp')
         self.rect = self.image.get_rect()
@@ -16,3 +17,15 @@ class Troll(Sprite):
         self.rect.y = self.rect.height
 
         self.x = float(self.rect.x)
+
+
+    def update(self):
+        """Troll moving left or right."""
+        self.x += (self.settings.troll_speed * self.settings.hord_direction)
+        self.rect.x = self.x
+
+    def check_edges(self):
+        """Returns True if Troll on edge."""
+        screen_rect = self.screen.get_rect()
+        if self.rect.right >= screen_rect.right or self.rect.left <= 0:
+            return True

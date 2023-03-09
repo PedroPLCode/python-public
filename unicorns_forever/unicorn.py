@@ -51,3 +51,8 @@ class Unicorn:
         """Shows unicorn in current location."""
 
         self.screen.blit(self.image, self.rect)
+
+    def center_unicorn(self):
+        """New unicorn in the center bottom of the screen."""
+        self.rect.midbottom = self.screen_rect.midbottom
+        self.x = float(self.rect.x)

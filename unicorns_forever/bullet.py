@@ -26,4 +26,4 @@ class Bullet(Sprite):
     def draw_bullet(self):
         """Shows bullet."""
 
-        pygame.draw.ellipse(self.screen, self.color, self.rect)
+        pygame.draw.rect(self.screen, self.color, self.rect)

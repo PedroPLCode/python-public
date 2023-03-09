@@ -1,7 +1,10 @@
 import sys
+from time import sleep
+
 import pygame
 
 from settings import Settings
+from game_stats import GameStats
 from unicorn import Unicorn
 from bullet import Bullet
 from troll import Troll
@@ -18,6 +21,8 @@ class UnicornsForever:
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Unicorns Forever")
+
+        self.stats = GameStats(self)
         
         self.unicorn = Unicorn(self)
         self.bullets = pygame.sprite.Group()
@@ -29,8 +34,10 @@ class UnicornsForever:
         """Game main loop."""
         while True:
             self._check_events()
-            self.unicorn.update()
-            self._update_bullets()
+            if self.stats.game_active:
+                self.unicorn.update()
+                self._update_bullets()
+                self._update_trolls()
             self._update_screen()
 
     def _check_events(self):
@@ -83,6 +90,35 @@ class UnicornsForever:
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
 
+        self._check_bullet_troll_colisions()
+
+    def _check_bullet_troll_colisions(self):
+        """Reaction for collision of bullet and troll."""
+        colisions = pygame.sprite.groupcollide(self.bullets, self.trolls, True, True)
+        if not self.trolls:
+            self.bullets.empty()
+            self._create_hord()
+
+    def _update_trolls(self):
+        """Checking if hord is on the edge and location of all trolls actualization."""
+        self._check_hord_egdes()
+        self.trolls.update()
+        if pygame.sprite.spritecollideany(self.unicorn, self.troll):
+            self._chech_trolls_bottom()
+
+    def _check_hord_egdes(self):
+        """Reaction for Troll on the screen edge."""
+        for troll in self.trolls.sprites():
+            if troll.check_edges():
+                self._change_hord_direction()
+                break
+
+    def _change_hord_direction(self):
+        """Hord moving down and charne direction."""
+        for troll in self.trolls.sprites():
+            troll.rect.y += self.settings.hord_drop_speed
+        self.settings.hord_direction * -1
+
     def _create_hord(self):
         """Creating Trolls Hord."""
         troll = Troll(self)
@@ -106,6 +142,33 @@ class UnicornsForever:
         troll.rect.x = troll.x
         troll.rect.y = troll.rect.height + 2 * troll.rect.height * row_number
         self.trolls.add(troll)
+
+    def _unicorn_hit(self):
+        """Unicorn hit by Troll reaction."""
+
+        if self.stats.unicorns_left > 0:
+
+            self.stats.unicorns_left -= 1
+
+            self.trolls.empty()
+            self.bullets.empty()
+
+            self._create_fleet()
+            self.unicorn.center_unicorn()
+
+            sleep(0.5)
+
+        else:
+            self.stats.game_active = False
+
+
+    def _chech_trolls_bottom(self):
+        """checking if any Troll gets to the bottonm of the screen."""
+        screen_rect = self.screen.get_rect()
+        for troll in self.trolls.sprites():
+            if troll.rect.bottom >= screen_rect.bottom:
+                self._unicorn_hit()
+                break
 
     def _update_screen(self):
         """Updating screen view."""
