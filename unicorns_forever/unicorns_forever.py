@@ -103,8 +103,8 @@ class UnicornsForever:
         """Checking if hord is on the edge and location of all trolls actualization."""
         self._check_hord_egdes()
         self.trolls.update()
-        if pygame.sprite.spritecollideany(self.unicorn, self.troll):
-            self._chech_trolls_bottom()
+        if pygame.sprite.spritecollideany(self.unicorn, self.trolls):
+            self._check_trolls_bottom()
 
     def _check_hord_egdes(self):
         """Reaction for Troll on the screen edge."""
@@ -117,7 +117,7 @@ class UnicornsForever:
         """Hord moving down and charne direction."""
         for troll in self.trolls.sprites():
             troll.rect.y += self.settings.hord_drop_speed
-        self.settings.hord_direction * -1
+        self.settings.hord_direction *= -1
 
     def _create_hord(self):
         """Creating Trolls Hord."""
@@ -162,7 +162,7 @@ class UnicornsForever:
             self.stats.game_active = False
 
 
-    def _chech_trolls_bottom(self):
+    def _check_trolls_bottom(self):
         """checking if any Troll gets to the bottonm of the screen."""
         screen_rect = self.screen.get_rect()
         for troll in self.trolls.sprites():
