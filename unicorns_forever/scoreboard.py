@@ -12,7 +12,7 @@ class ScoreBoard():
         self.uf_game = uf_game
         self.screen = uf_game.screen
         self.screen_rect = self.screen.get_rect()
-        self.screen = uf_game.settings
+        self.settings = uf_game.settings
         self.stats = uf_game.stats
 
         self.text_color = (30, 30, 30)
@@ -46,7 +46,7 @@ class ScoreBoard():
     def show_score(self):
         """Shows score info on the screen."""
         self.screen.blit(self.score_image, self.score_rect)
-        self.screen.blot(self.high_score_image, self.high_score_rect)
+        self.screen.blit(self.high_score_image, self.high_score_rect)
         self.screen.blit(self.level_image, self.level_rect)
         self.unicorns.draw(self.screen)
 

@@ -198,7 +198,7 @@ class UnicornsForever:
             self.trolls.empty()
             self.bullets.empty()
 
-            self._create_fleet()
+            self._create_hord()
             self.unicorn.center_unicorn()
 
             sleep(0.5)
