@@ -18,8 +18,8 @@ class UnicornsForever:
         """Game initialization."""
         pygame.init()
         self.settings = Settings()
-
-        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        #self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        self.screen = pygame.display.set_mode((1200, 800))
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Unicorns Forever")
@@ -55,13 +55,28 @@ class UnicornsForever:
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
                 self._check_play_button(mouse_pos)
-            #elif event.type == pygame.KETDOWN:
-            #    if event.key == pygame.K_G:
-            #        self._check_play_button(mouse_pos)
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)  
+
+    def _check_g_key(self):
+        """New game starts after key G press"""
+        if True and not self.stats.game_active:
+            self.settings.initialize_dynamic_settings()
+            self.stats._reset_stats()
+            self.stats.game_active = True
+            self.sb.prep_score()
+            self.sb.prep_level()
+            self.sb.prep_unicorns()
+
+            self.trolls.empty()
+            self.bullets.empty()
+
+            self._create_hord()
+            self.unicorn.center_unicorn()  
+
+            pygame.mouse.set_visible(False) 
 
     def _check_play_button(self, mouse_pos):
         """New game starts after Play button."""
@@ -84,7 +99,9 @@ class UnicornsForever:
 
     def _check_keydown_events(self, event):
         """Key down reaction."""
-        if event.key == pygame.K_RIGHT:
+        if event.key == pygame.K_g:
+            self._check_g_key()
+        elif event.key == pygame.K_RIGHT:
             self.unicorn.moving_right = True
         elif event.key == pygame.K_LEFT:
             self.unicorn.moving_left = True
@@ -147,7 +164,8 @@ class UnicornsForever:
         self._check_hord_egdes()
         self.trolls.update()
         if pygame.sprite.spritecollideany(self.unicorn, self.trolls):
-            self._check_trolls_bottom()
+            self._unicorn_hit()
+        self._check_trolls_bottom()
 
     def _check_hord_egdes(self):
         """Reaction for Troll on the screen edge."""
