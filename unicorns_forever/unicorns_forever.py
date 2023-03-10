@@ -8,6 +8,7 @@ from game_stats import GameStats
 from unicorn import Unicorn
 from bullet import Bullet
 from troll import Troll
+from button import Button
 
 class UnicornsForever:
     """Main class for game menagment."""
@@ -30,6 +31,10 @@ class UnicornsForever:
 
         self._create_hord()
 
+        self.game_active = False
+        self.play_button = Button(self, msg="Play")
+
+
     def run_game(self):
         """Game main loop."""
         while True:
@@ -45,10 +50,32 @@ class UnicornsForever:
         for event in pygame.event.get(): # naciśnięcie klawisza lub myszy
             if event.type == pygame.QUIT: # teraz niepotrzebne
                 sys.exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                self._check_play_button(mouse_pos)
+            #elif event.type == pygame.KETDOWN:
+            #    if event.key == pygame.K_G:
+            #        self._check_play_button(mouse_pos)
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
-                self._check_keyup_events(event)     
+                self._check_keyup_events(event)  
+
+    def _check_play_button(self, mouse_pos):
+        """New game starts after Play button."""
+        button_clicked = self.play_button.rect.collidepoint(mouse_pos)
+        if button_clicked and not self.stats.game_active:
+            self.settings.initialize_dynamic_settings()
+            self.stats._reset_stats()
+            self.stats.game_active = True
+
+            self.trolls.empty()
+            self.bullets.empty()
+
+            self._create_hord()
+            self.unicorn.center_unicorn()  
+
+            pygame.mouse.set_visible(False) 
 
     def _check_keydown_events(self, event):
         """Key down reaction."""
@@ -98,6 +125,7 @@ class UnicornsForever:
         if not self.trolls:
             self.bullets.empty()
             self._create_hord()
+            self.settings.increase_speed()
 
     def _update_trolls(self):
         """Checking if hord is on the edge and location of all trolls actualization."""
@@ -160,6 +188,7 @@ class UnicornsForever:
 
         else:
             self.stats.game_active = False
+            pygame.mouse.set_visible(True)
 
 
     def _check_trolls_bottom(self):
@@ -179,6 +208,9 @@ class UnicornsForever:
             bullet.draw_bullet()
         
         self.trolls.draw(self.screen)
+
+        if not self.stats.game_active:
+            self.play_button.draw_button()
 
         pygame.display.flip() # ostatni ekran
 

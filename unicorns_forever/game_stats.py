@@ -5,7 +5,7 @@ class GameStats:
         """Statistic data initialization."""
         self.settings = uf_game.settings
         self._reset_stats()
-        self.game_active = True
+        self.game_active = False
 
     def _reset_stats(self):
         """Reset of statistic data."""
