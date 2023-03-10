@@ -7,6 +7,7 @@ from settings import Settings
 from game_stats import GameStats
 from unicorn import Unicorn
 from bullet import Bullet
+from bomb import Bomb
 from troll import Troll
 from button import Button
 from scoreboard import ScoreBoard
@@ -29,12 +30,13 @@ class UnicornsForever:
         
         self.unicorn = Unicorn(self)
         self.bullets = pygame.sprite.Group()
+        self.bombs = pygame.sprite.Group()
         self.trolls = pygame.sprite.Group()
 
         self._create_hord()
 
         self.game_active = False
-        self.play_button = Button(self, msg="Play")
+        self.play_button = Button(self, msg="Play") # info
 
 
     def run_game(self):
@@ -44,6 +46,7 @@ class UnicornsForever:
             if self.stats.game_active:
                 self.unicorn.update()
                 self._update_bullets()
+                self._update_bombs()
                 self._update_trolls()
             self._update_screen()
 
@@ -63,25 +66,16 @@ class UnicornsForever:
     def _check_g_key(self):
         """New game starts after key G press"""
         if True and not self.stats.game_active:
-            self.settings.initialize_dynamic_settings()
-            self.stats._reset_stats()
-            self.stats.game_active = True
-            self.sb.prep_score()
-            self.sb.prep_level()
-            self.sb.prep_unicorns()
-
-            self.trolls.empty()
-            self.bullets.empty()
-
-            self._create_hord()
-            self.unicorn.center_unicorn()  
-
-            pygame.mouse.set_visible(False) 
+            self.start_new_round()
 
     def _check_play_button(self, mouse_pos):
         """New game starts after Play button."""
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.stats.game_active:
+            self.start_new_round()
+
+    def start_new_round(self):
+            """Starting new round."""
             self.settings.initialize_dynamic_settings()
             self.stats._reset_stats()
             self.stats.game_active = True
@@ -111,6 +105,8 @@ class UnicornsForever:
             self.unicorn.moving_down = True
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
+        elif event.key == pygame.K_b:
+            self._fire_bomb()
         elif event.key == pygame.K_q:
             sys.exit()
 
@@ -131,6 +127,14 @@ class UnicornsForever:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
 
+    def _fire_bomb(self):
+        """Creating new Bomb and adding to bombs group."""
+        if len(self.bombs) < self.settings.bombs_allowed and self.settings.bombs_fired < self.settings.bombs_limit:
+            new_bomb = Bomb(self)
+            self.bombs.add(new_bomb)
+            self.settings.bombs_fired += 1
+
+
     def _update_bullets(self):
         """Bullets actualization and old bullets removing."""
         self.bullets.update()
@@ -140,6 +144,16 @@ class UnicornsForever:
                 self.bullets.remove(bullet)
 
         self._check_bullet_troll_colisions()
+
+    def _update_bombs(self):
+        """Bombs actualization and old bombs removing."""
+        self.bombs.update()
+
+        for bomb in self.bombs.copy():
+            if bomb.rect.bottom <= 0:
+                self.bombs.remove(bomb)
+
+        self._check_bombs_troll_colisions()
 
     def _check_bullet_troll_colisions(self):
         """Reaction for collision of bullet and troll."""
@@ -151,8 +165,25 @@ class UnicornsForever:
             self.sb.prep_score()
             self.sb.check_high_score()
 
+        self.next_level()
+
+    def _check_bombs_troll_colisions(self):
+        """Reaction for collision of bomb and troll."""
+        bomb_colisions = pygame.sprite.groupcollide(self.bombs, self.trolls, True, True)
+
+        if bomb_colisions:
+            for trolls in bomb_colisions.values():
+                self.stats.score += self.settings.troll_points * len(trolls)
+            self.sb.prep_score()
+            self.sb.check_high_score()
+
+        self.next_level()
+
+    def next_level(self):
+        """Next level."""
         if not self.trolls:
             self.bullets.empty()
+            self.bombs.empty()
             self._create_hord()
             self.settings.increase_speed()
 
@@ -215,6 +246,7 @@ class UnicornsForever:
 
             self.trolls.empty()
             self.bullets.empty()
+            self.bombs.empty()
 
             self._create_hord()
             self.unicorn.center_unicorn()
@@ -241,6 +273,9 @@ class UnicornsForever:
 
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
+
+        for bomb in self.bombs.sprites():
+            bomb.draw_bomb()
         
         self.trolls.draw(self.screen)
 

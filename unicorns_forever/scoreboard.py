@@ -1,4 +1,5 @@
 import pygame.font
+import json
 
 from pygame.sprite import Group
 
@@ -55,6 +56,23 @@ class ScoreBoard():
         if self.stats.score > self.stats.high_score:
             self.stats.high_score = self.stats.score
             self.prep_high_score()
+            self.save_new_high_score(self.stats.score)
+
+    def get_stored_high_score(self):
+        """Getting highest score from file"""
+        try:
+            with open(self.settings.filename) as file_obj:
+                high_score = json.load(file_obj)
+        except FileNotFoundError:
+            return 0
+        else:
+            return high_score
+        
+    def save_new_high_score(self, high_score):
+        """Saves new high score in file."""
+        with open(self.settings.filename, 'w') as f_obj:
+            json.dump(high_score, f_obj)
+        return high_score
 
     def prep_level(self):
         """Shows current Level."""
