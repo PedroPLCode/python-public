@@ -1,10 +1,12 @@
 import pygame
+from pygame.sprite import Sprite
 
-class Unicorn:
+class Unicorn(Sprite):
     """Unicorn managment."""
 
     def __init__(self, uf_game):
         """Unicorn initialization."""
+        super().__init__()
 
         self.screen = uf_game.screen
         self.settings = uf_game.settings

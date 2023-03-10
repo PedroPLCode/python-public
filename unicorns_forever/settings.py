@@ -15,6 +15,9 @@ class Settings:
         self.hord_drop_speed = 10
 
         self.speed_up_scale = 1.1
+        self.score_scale = 1.5
+
+        self.troll_points = 50
 
         self.initialize_dynamic_settings()
 
@@ -33,3 +36,4 @@ class Settings:
         self.unicorn_speed_up_down *= self.speed_up_scale
         self.bullet_speed *= self.speed_up_scale
         self.troll_speed *= self.speed_up_scale
+        self.troll_points = int(self.troll_points * self.score_scale)

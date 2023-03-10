@@ -9,6 +9,7 @@ from unicorn import Unicorn
 from bullet import Bullet
 from troll import Troll
 from button import Button
+from scoreboard import ScoreBoard
 
 class UnicornsForever:
     """Main class for game menagment."""
@@ -24,6 +25,7 @@ class UnicornsForever:
         pygame.display.set_caption("Unicorns Forever")
 
         self.stats = GameStats(self)
+        self.sb = ScoreBoard(self)
         
         self.unicorn = Unicorn(self)
         self.bullets = pygame.sprite.Group()
@@ -68,6 +70,9 @@ class UnicornsForever:
             self.settings.initialize_dynamic_settings()
             self.stats._reset_stats()
             self.stats.game_active = True
+            self.sb.prep_score()
+            self.sb.prep_level()
+            self.sb.prep_unicorns()
 
             self.trolls.empty()
             self.bullets.empty()
@@ -122,10 +127,20 @@ class UnicornsForever:
     def _check_bullet_troll_colisions(self):
         """Reaction for collision of bullet and troll."""
         colisions = pygame.sprite.groupcollide(self.bullets, self.trolls, True, True)
+
+        if colisions:
+            for trolls in colisions.values():
+                self.stats.score += self.settings.troll_points * len(trolls)
+            self.sb.prep_score()
+            self.sb.check_high_score()
+
         if not self.trolls:
             self.bullets.empty()
             self._create_hord()
             self.settings.increase_speed()
+
+            self.stats.level += 1
+            self.sb.prep_level()
 
     def _update_trolls(self):
         """Checking if hord is on the edge and location of all trolls actualization."""
@@ -178,6 +193,8 @@ class UnicornsForever:
 
             self.stats.unicorns_left -= 1
 
+            self.sb.prep_unicorns()
+
             self.trolls.empty()
             self.bullets.empty()
 
@@ -208,6 +225,8 @@ class UnicornsForever:
             bullet.draw_bullet()
         
         self.trolls.draw(self.screen)
+
+        self.sb.show_score()
 
         if not self.stats.game_active:
             self.play_button.draw_button()
