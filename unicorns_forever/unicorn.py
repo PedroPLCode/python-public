@@ -39,10 +39,10 @@ class Unicorn(Sprite):
         if self.moving_left and self.rect.left > 0:
             self.rect.x -= self.settings.unicorn_speed_left_right
             self.image = self.imageup_left
-        if self.moving_up: # and self.rect.top < self.screen_rect.top:
+        if self.moving_up and self.rect.top > 0:
             self.rect.y -= self.settings.unicorn_speed_up_down
             self.image = self.image_up
-        if self.moving_down: # and self.rect.bottom > 0:
+        if self.moving_down and self.rect.bottom < self.screen_rect.bottom:
             self.rect.y += self.settings.unicorn_speed_up_down
             self.image = self.imageup_down
 
