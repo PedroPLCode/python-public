@@ -10,6 +10,8 @@ b - bomb - super bullet.
 max 1 bomb allowed at one time on the screen.
 you have one bomb at the beginning. every level gives you an extra bomb.
 
+q - quit game
+
 You have 3 Unicorns.
 
 Each level will be faster.

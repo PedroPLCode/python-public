@@ -11,6 +11,7 @@ from bomb import Bomb
 from troll import Troll
 from button import Button
 from help_button import HelpButton
+from quit_button import QuitButton
 from scoreboard import ScoreBoard
 
 class UnicornsForever:
@@ -37,8 +38,8 @@ class UnicornsForever:
         self._create_hord()
 
         self.game_active = False
-        self.play_button = Button(self, msg="Play") # info
-        #self.help_button = HelpButton(self, self.help_button.help_msg)
+        self.play_button = Button(self, msg="Play")
+        self.help_button = HelpButton(self, help_msg="Help")
 
 
     def run_game(self):
@@ -58,8 +59,7 @@ class UnicornsForever:
             if event.type == pygame.QUIT: # teraz niepotrzebne
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_pos = pygame.mouse.get_pos()
-                self._check_play_button(mouse_pos)
+                self._check_mouse_events(event)
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
@@ -74,6 +74,12 @@ class UnicornsForever:
         """New game starts after Play button."""
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.stats.game_active:
+            self.start_new_round()
+
+    def _check_help_button(self, mouse_pos):
+        """New game starts after Help button."""
+        help_button_clicked = self.help_button.rect.collidepoint(mouse_pos)
+        if help_button_clicked and not self.stats.game_active:
             self.start_new_round()
 
     def start_new_round(self):
@@ -92,6 +98,11 @@ class UnicornsForever:
             self.unicorn.center_unicorn()  
 
             pygame.mouse.set_visible(False) 
+
+    def _check_mouse_events(self, event):
+        mouse_pos = pygame.mouse.get_pos()
+        self._check_play_button(mouse_pos)
+        self._check_help_button(mouse_pos)
 
     def _check_keydown_events(self, event):
         """Key down reaction."""
@@ -285,6 +296,7 @@ class UnicornsForever:
 
         if not self.stats.game_active:
             self.play_button.draw_button()
+            self.help_button.draw_help_button()
 
         pygame.display.flip() # ostatni ekran
 

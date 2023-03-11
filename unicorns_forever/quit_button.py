@@ -1,7 +1,7 @@
 import pygame.font
 
-class HelpButton():
-    def __init__(self, uf_game, help_msg):
+class QuitButton():
+    def __init__(self, uf_game, quit_msg):
         """Button initialization."""
         self.screen = uf_game.screen
         self.screen_rect = uf_game.screen.get_rect()
@@ -14,17 +14,17 @@ class HelpButton():
         self.rect = pygame.Rect(0, 0, self.width, self.height)
         self.rect.top = self.screen_rect.top
 
-        self._prep_help_msg(help_msg)
+        self._prep_quit_msg(quit_msg)
 
-    help_msg = "Help"
+    quit_msg = "Quit"
 
-    def _prep_help_msg(self, help_msg):
+    def _prep_quit_msg(self, quit_msg):
         """Message into the button."""
-        self.help_msg_image = self.font.render(help_msg, True, self.text_color, self.button_color)
-        self.help_msg_image_rect = self.help_msg_image.get_rect()
-        self.help_msg_image_rect.center = self.rect.center
+        self.quit_msg_image = self.font.render(quit_msg, True, self.text_color, self.button_color)
+        self.quit_msg_image_rect = self.quit_msg_image.get_rect()
+        self.quit_msg_image_rect.center = self.rect.center
 
-    def draw_help_button(self):
+    def draw_quit_button(self):
         """Draws a button with message."""
         self.screen.fill(self.button_color, self.rect)
-        self.screen.blit(self.help_msg_image, self.help_msg_image_rect)
+        self.screen.blit(self.quit_msg_image, self.quit_msg_image_rect)
