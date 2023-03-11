@@ -1,4 +1,7 @@
-Unicorn Forever Game
+-= Unicorn Forever Game =-
+last update 11.03.2023 - pedro
+
+Instructions:
 
 arrows up, down, left and right - moving unicorn
 
@@ -18,4 +21,3 @@ g - start game
 You have 3 Unicorns.
 
 At next levels, game will be faster.
-

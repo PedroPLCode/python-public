@@ -24,8 +24,8 @@ class Settings:
         self.score_scale = 1.5
         self.new_bombs = 1
 
-        self.filename = 'high_score.json'
-        self.instructions_file = 'readme.txt'
+        self.filename = 'unicorns_forever/high_score.json'
+        self.instructions_file = 'unicorns_forever/readme.txt'
 
         self.initialize_dynamic_settings()
 

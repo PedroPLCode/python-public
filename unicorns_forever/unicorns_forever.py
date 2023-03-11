@@ -310,14 +310,15 @@ class UnicornsForever:
             self.play_button.draw_button()
             self.help_button.draw_help_button()
             self.quit_button.draw_quit_button()
-            self.instructions.draw_instructions()
+            # self.instructions.draw_instructions(self.settings.instructions_file)
 
         pygame.display.flip() # ostatni ekran
 
 
     def _check_h_key(self):
-        """Reaction to k key press."""
-        self.instructions.draw_instructions()
+        """Reaction to h key press."""
+        self.start_new_round()
+        # self.instructions.draw_instructions(self.settings.instructions_file)
 
 
 if __name__=='__main__':
