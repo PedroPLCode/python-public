@@ -21,8 +21,8 @@ class UnicornsForever:
         """Game initialization."""
         pygame.init()
         self.settings = Settings()
-        #self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-        self.screen = pygame.display.set_mode((1200, 800))
+        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        #self.screen = pygame.display.set_mode((1200, 800))
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Unicorns Forever")
@@ -38,8 +38,9 @@ class UnicornsForever:
         self._create_hord()
 
         self.game_active = False
-        self.play_button = Button(self, msg="Play")
-        self.help_button = HelpButton(self, help_msg="Help")
+        self.play_button = Button(self, msg="g - Game")
+        self.help_button = HelpButton(self, help_msg="h - Help")
+        self.quit_button = QuitButton(self, quit_msg="q - Quit")
 
 
     def run_game(self):
@@ -82,6 +83,12 @@ class UnicornsForever:
         if help_button_clicked and not self.stats.game_active:
             self.start_new_round()
 
+    def _check_quit_button(self, mouse_pos):
+        """Quit game after quit button."""
+        quit_button_clicked = self.quit_button.rect.collidepoint(mouse_pos)
+        if quit_button_clicked and not self.stats.game_active:
+            sys.exit()
+
     def start_new_round(self):
             """Starting new round."""
             self.settings.initialize_dynamic_settings()
@@ -103,6 +110,7 @@ class UnicornsForever:
         mouse_pos = pygame.mouse.get_pos()
         self._check_play_button(mouse_pos)
         self._check_help_button(mouse_pos)
+        self._check_quit_button(mouse_pos)
 
     def _check_keydown_events(self, event):
         """Key down reaction."""
@@ -297,6 +305,7 @@ class UnicornsForever:
         if not self.stats.game_active:
             self.play_button.draw_button()
             self.help_button.draw_help_button()
+            self.quit_button.draw_quit_button()
 
         pygame.display.flip() # ostatni ekran
 

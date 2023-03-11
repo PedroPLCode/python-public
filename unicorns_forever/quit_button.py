@@ -6,13 +6,13 @@ class QuitButton():
         self.screen = uf_game.screen
         self.screen_rect = uf_game.screen.get_rect()
 
-        self.width, self.height = 200, 55
+        self.width, self.height = 210, 55
         self.button_color = (0, 255, 0) # inne kolory
         self.text_color = (255, 255, 255) 
         self.font = pygame.font.SysFont(None, 48)
 
         self.rect = pygame.Rect(0, 0, self.width, self.height)
-        self.rect.top = self.screen_rect.top
+        self.rect.topright = self.screen_rect.topright
 
         self._prep_quit_msg(quit_msg)
 

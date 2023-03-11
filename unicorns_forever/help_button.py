@@ -12,7 +12,7 @@ class HelpButton():
         self.font = pygame.font.SysFont(None, 48)
 
         self.rect = pygame.Rect(0, 0, self.width, self.height)
-        self.rect.top = self.screen_rect.top
+        self.rect.topleft = self.screen_rect.topleft
 
         self._prep_help_msg(help_msg)
 
