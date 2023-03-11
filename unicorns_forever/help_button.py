@@ -28,3 +28,5 @@ class HelpButton():
         """Draws a button with message."""
         self.screen.fill(self.button_color, self.rect)
         self.screen.blit(self.help_msg_image, self.help_msg_image_rect)
+
+    

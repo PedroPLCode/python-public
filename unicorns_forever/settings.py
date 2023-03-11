@@ -25,6 +25,7 @@ class Settings:
         self.new_bombs = 1
 
         self.filename = 'high_score.json'
+        self.instructions_file = 'readme.txt'
 
         self.initialize_dynamic_settings()
 

@@ -11,6 +11,7 @@ from bomb import Bomb
 from troll import Troll
 from button import Button
 from help_button import HelpButton
+from instructions import Instructions
 from quit_button import QuitButton
 from scoreboard import ScoreBoard
 
@@ -21,8 +22,8 @@ class UnicornsForever:
         """Game initialization."""
         pygame.init()
         self.settings = Settings()
-        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-        #self.screen = pygame.display.set_mode((1200, 800))
+        #self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        self.screen = pygame.display.set_mode((1200, 800))
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Unicorns Forever")
@@ -40,6 +41,7 @@ class UnicornsForever:
         self.game_active = False
         self.play_button = Button(self, msg="g - Game")
         self.help_button = HelpButton(self, help_msg="h - Help")
+        self.instructions = Instructions(self, instructions_file='readme.txt')
         self.quit_button = QuitButton(self, quit_msg="q - Quit")
 
 
@@ -81,7 +83,7 @@ class UnicornsForever:
         """New game starts after Help button."""
         help_button_clicked = self.help_button.rect.collidepoint(mouse_pos)
         if help_button_clicked and not self.stats.game_active:
-            self.start_new_round()
+            self._check_h_key()
 
     def _check_quit_button(self, mouse_pos):
         """Quit game after quit button."""
@@ -116,6 +118,8 @@ class UnicornsForever:
         """Key down reaction."""
         if event.key == pygame.K_g:
             self._check_g_key()
+        elif event.key == pygame.K_h:
+            self._check_h_key()
         elif event.key == pygame.K_RIGHT:
             self.unicorn.moving_right = True
         elif event.key == pygame.K_LEFT:
@@ -306,8 +310,15 @@ class UnicornsForever:
             self.play_button.draw_button()
             self.help_button.draw_help_button()
             self.quit_button.draw_quit_button()
+            self.instructions.draw_instructions()
 
         pygame.display.flip() # ostatni ekran
+
+
+    def _check_h_key(self):
+        """Reaction to k key press."""
+        self.instructions.draw_instructions()
+
 
 if __name__=='__main__':
     uf = UnicornsForever()
