@@ -27,7 +27,7 @@ class ScoreBoard():
     def prep_score(self):
         """Generationg score board"""
         rounded_score = round(self.stats.score, -1)
-        score_str = "{:,}".format(rounded_score)
+        score_str = "score: {:,}".format(rounded_score)
         self.score_image = self.font.render(score_str, True, self.text_color, self.settings.bg_color)
 
         self.score_rect = self.score_image.get_rect()
@@ -37,7 +37,7 @@ class ScoreBoard():
     def prep_high_score(self):
         """Highest score in game."""
         high_score = round(self.stats.high_score, -1)
-        high_score_str = "{:,}".format(high_score)
+        high_score_str = "high score: {:,}".format(high_score)
         self.high_score_image = self.font.render(high_score_str, True, self.text_color, self.settings.bg_color)
 
         self.high_score_rect = self.high_score_image.get_rect()
@@ -56,27 +56,11 @@ class ScoreBoard():
         if self.stats.score > self.stats.high_score:
             self.stats.high_score = self.stats.score
             self.prep_high_score()
-            self.save_new_high_score(self.stats.score)
-
-    def get_stored_high_score(self):
-        """Getting highest score from file"""
-        try:
-            with open(self.settings.filename) as file_obj:
-                high_score = json.load(file_obj)
-        except FileNotFoundError:
-            return 0
-        else:
-            return high_score
-        
-    def save_new_high_score(self, high_score):
-        """Saves new high score in file."""
-        with open(self.settings.filename, 'w') as f_obj:
-            json.dump(high_score, f_obj)
-        return high_score
+            self.stats.save_new_high_score(self.stats.score)
 
     def prep_level(self):
         """Shows current Level."""
-        level_str = str(self.stats.level)
+        level_str = str(f"level: {self.stats.level}")
         self.level_image = self.font.render(level_str, True, self.text_color, self.settings.bg_color)
 
         self.level_rect = self.level_image.get_rect()

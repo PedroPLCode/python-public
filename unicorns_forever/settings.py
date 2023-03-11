@@ -12,17 +12,17 @@ class Settings:
         self.bullet_color = (60, 60, 60)
         self.bullets_allowed = 3
 
-        self.bomb_width = 150
-        self.bomb_height = 150
+        self.bomb_width = 30
+        self.bomb_height = 30
         self.bomb_color = (60, 60, 60)
         self.bombs_allowed = 1
-        self.bombs_limit = 2
+        self.bombs_limit = 1
 
         self.hord_drop_speed = 10
 
         self.speed_up_scale = 1.1
         self.score_scale = 1.5
-        self.new_bombs = 2
+        self.new_bombs = 1
 
         self.filename = 'high_score.json'
 

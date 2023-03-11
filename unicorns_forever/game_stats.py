@@ -25,3 +25,9 @@ class GameStats:
             return 0
         else:
             return high_score
+        
+    def save_new_high_score(self, high_score):
+        """Saves new high score in file."""
+        with open(self.settings.filename, 'w') as f_obj:
+            json.dump(high_score, f_obj)
+        return high_score

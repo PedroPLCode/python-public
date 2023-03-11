@@ -10,6 +10,7 @@ from bullet import Bullet
 from bomb import Bomb
 from troll import Troll
 from button import Button
+from help_button import HelpButton
 from scoreboard import ScoreBoard
 
 class UnicornsForever:
@@ -37,6 +38,7 @@ class UnicornsForever:
 
         self.game_active = False
         self.play_button = Button(self, msg="Play") # info
+        #self.help_button = HelpButton(self, self.help_button.help_msg)
 
 
     def run_game(self):
@@ -169,7 +171,7 @@ class UnicornsForever:
 
     def _check_bombs_troll_colisions(self):
         """Reaction for collision of bomb and troll."""
-        bomb_colisions = pygame.sprite.groupcollide(self.bombs, self.trolls, True, True)
+        bomb_colisions = pygame.sprite.groupcollide(self.bombs, self.trolls, False, True)
 
         if bomb_colisions:
             for trolls in bomb_colisions.values():
