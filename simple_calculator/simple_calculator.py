@@ -1,6 +1,6 @@
 """Simple Calculator
 Author: Pedro
-Last update: 26.02.2023
+Last update: 12.03.2023
 Any comments welcome :)
 """
 
@@ -37,9 +37,19 @@ def get_input():
     user_string = input("Enter operation: ")
     list = user_string.split()
 
+    if len(list) > 3:
+        number1, number2, operation = 'wrong', 'wrong', 'wrong' # Tu poprawić
+        return number1, number2, operation
+
     number1 = convert_input_to_float(list[0])
-    number2 = convert_input_to_float(list[2])
-    operation = list[1]
+    try:
+        number2 = convert_input_to_float(list[2])
+    except IndexError:
+        number2 = 'wrong'
+    try:
+        operation = list[1]
+    except IndexError:
+        operation = 'wrong'
 
     return number1, number2, operation
 
@@ -80,6 +90,10 @@ def check_input_type(input):
         except ValueError:
             print(f"\nInput {input} is not a correct number. Looks like string.\n")
             return True
+    except TypeError:
+        print("\nYour input is not a correct number."
+                   "\nPlease try again.")
+        return True
 
 
 def convert_input_to_float(input):
@@ -89,8 +103,12 @@ def convert_input_to_float(input):
 
         if len(splitted) == 2:
             converted = (splitted[0]+'.'+splitted[1])
-            converted = float(converted)
-            return converted
+            try:
+                converted = float(converted)
+                return converted
+            except ValueError:
+                pass
+                return input
 
     else:
         return input

@@ -59,8 +59,8 @@ class UnicornsForever:
 
     def _check_events(self):
         """Keyboard and mouce reactions."""
-        for event in pygame.event.get(): # naciśnięcie klawisza lub myszy
-            if event.type == pygame.QUIT: # teraz niepotrzebne
+        for event in pygame.event.get(): 
+            if event.type == pygame.QUIT: 
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 self._check_mouse_events(event)
@@ -294,7 +294,7 @@ class UnicornsForever:
 
     def _update_screen(self):
         """Updating screen view."""
-        self.screen.fill(self.settings.bg_color) # kolor tła , zrobic inny
+        self.screen.fill(self.settings.bg_color)
         self.unicorn.blitme()
 
         for bullet in self.bullets.sprites():

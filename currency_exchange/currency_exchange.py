@@ -1,6 +1,6 @@
 """Currency Exchange Calculator
 Author: Pedro
-Last update: 26.02.2023
+Last update: 12.03.2023
 
 One of my self learning, small projects.
 First version had 420 lines and was using only variables, 
@@ -95,42 +95,50 @@ def change_currencies(currency, dict):
     for key, values in dict.items():
         for key_curr, val_curr in values.items():
             if currency == key:
+                change_single_currency(key, key_curr, values)
 
-                while True:
-                    change = str(input(f"\nDo you want to change {key.upper()} / {key_curr.upper()} currency? "
-                                       "Answer y / n  "))
-                    change = change.lower().strip()
+def change_single_currency(key, key_curr, values):
+    """Single currency exchange mechanism."""
+    while True:
+        change = str(input(f"\nDo you want to change {key.upper()} / {key_curr.upper()} currency? "
+                           "Answer y / n  "))
+        change = change.lower().strip()
 
-                    if change == "y" or change == "yes":
-                        new = input(f"Enter new {key.upper()} / {key_curr.upper()} currency: ")
-                        new = convert_input_to_float(new)
+        if change == "y" or change == "yes":
+            new = input(f"Enter new {key.upper()} / {key_curr.upper()} currency: ")
+            new = convert_input_to_float(new)
 
-                        if check_input_type(new):
-                            continue
-                        else:
-                            new = float(new)
+            if check_input_type(new):
+                continue
+            else:
+                new = float(new)
 
-                        if new < 0:
-                            print(f"\nWrong. New {key.upper()} / {key_curr.upper()} currency can't be lower than 0"
-                                  "\nDidn't change.")
-                            continue
+            if new < 0:
+                print(f"\nWrong. New {key.upper()} / {key_curr.upper()} currency can't be lower than 0"
+                      "\nDidn't change.")
+                continue
 
-                        values[key_curr] = round(new, 2)
-                        print(
-                            f"Currency {key.upper()} / {key_curr.upper()} changed to {str(round(new, 2))}")
-                        break
+            if round(new, 2) == 0:
+                print(f"\nWrong. New {key.upper()} / {key_curr.upper()} currency can't be 0"
+                      "\nDidn't change.")
+                continue
 
-                    elif change == "n" or change == "no":
-                        print(f"Currency {key.upper()} / {key_curr.upper()} not changed.")
-                        break
+            values[key_curr] = round(new, 2)
+            print(
+                f"Currency {key.upper()} / {key_curr.upper()} changed to {str(round(new, 2))}")
+            break
 
-                    else:
-                        print(
-                            f"Wrong answer. Currency {key.upper()} / {key_curr.upper()} not changed.")
+        elif change == "n" or change == "no":
+            print(f"Currency {key.upper()} / {key_curr.upper()} not changed.")
+            break
+
+        else:
+            print(
+                f"Wrong answer. Currency {key.upper()} / {key_curr.upper()} not changed.")
 
 
-def currnecy_exchange(currency, dict):
-    """Exchanges currencies and shows results."""
+def amount_input(currency):
+    """Get amount input from user."""
     while True:
         amount = input(f"\nEnter {(currency.upper())} amount to exchange: ")
         amount = convert_input_to_float(amount)
@@ -143,9 +151,13 @@ def currnecy_exchange(currency, dict):
                 print(f"Wrong. You Can't exchange less than 0.1 {currency.upper()}.")
                 continue
             break
-            
-    print("\nExchange results:")
+    return amount
 
+def currnecy_exchange(currency, dict):
+    """Exchanges currencies and shows results."""
+    amount = amount_input(currency)
+          
+    print("\nExchange results:")
     for key, values in dict.items():
         for key_curr, val_curr in values.items():
             if currency == key:
@@ -187,6 +199,10 @@ def check_input_type(input):
             print(f"\nInput {input} is not a correct number. Looks like string."
                    "\nPlease try again.")
             return True
+    except TypeError:
+        print("\nYour input is not a correct number."
+                   "\nPlease try again.")
+        return True
 
 
 def convert_input_to_float(input):
@@ -196,8 +212,12 @@ def convert_input_to_float(input):
 
         if len(splitted) == 2:
             converted = (splitted[0]+'.'+splitted[1])
-            converted = float(converted)
-            return converted
+            try:
+                converted = float(converted)
+                return converted
+            except ValueError:
+                pass
+                return input
 
     else:
         return input
