@@ -1,5 +1,5 @@
 -= Unicorn Forever Game =-
-last update 11.03.2023 - pedro
+last update 12.03.2023 - pedro
 
 Instructions:
 
@@ -15,7 +15,7 @@ You have one bomb at level 1. every level you will get an extra bomb.
 You can use it right away or keep it for further levels.
 
 q - quit game
-
+h - show / hide help info 
 g - start game
 
 You have 3 Unicorns.
