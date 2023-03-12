@@ -39,6 +39,7 @@ class UnicornsForever:
         self._create_hord()
 
         self.game_active = False
+        self.info_board_active = False
         self.play_button = Button(self, msg="g - Game")
         self.help_button = HelpButton(self, help_msg="h - Help")
         self.instructions = Instructions(self, instructions_file='readme.txt')
@@ -310,15 +311,18 @@ class UnicornsForever:
             self.play_button.draw_button()
             self.help_button.draw_help_button()
             self.quit_button.draw_quit_button()
-            # self.instructions.draw_instructions(self.settings.instructions_file)
+            if self.info_board_active:
+                self.instructions.draw_instructions(self.settings.instructions_file)
 
         pygame.display.flip() # ostatni ekran
 
 
     def _check_h_key(self):
         """Reaction to h key press."""
-        self.start_new_round()
-        # self.instructions.draw_instructions(self.settings.instructions_file)
+        if not self.info_board_active:
+            self.info_board_active = True
+        elif self.info_board_active:
+            self.info_board_active = False
 
 
 if __name__=='__main__':
