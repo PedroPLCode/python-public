@@ -9,6 +9,7 @@ from unicorn import Unicorn
 from bullet import Bullet
 from bomb import Bomb
 from troll import Troll
+from troll_bullet import TrollBullet
 from button import Button
 from help_button import HelpButton
 from instructions import Instructions
@@ -32,8 +33,10 @@ class UnicornsForever:
         self.sb = ScoreBoard(self)
         
         self.unicorn = Unicorn(self)
+        self.unicorns = pygame.sprite.Group()
         self.bullets = pygame.sprite.Group()
         self.bombs = pygame.sprite.Group()
+        self.troll_bullets = pygame.sprite.Group()
         self.trolls = pygame.sprite.Group()
 
         self._create_hord()
@@ -48,12 +51,14 @@ class UnicornsForever:
 
     def run_game(self):
         """Game main loop."""
+        self.unicorns.add(self.unicorn)
         while True:
             self._check_events()
             if self.stats.game_active:
                 self.unicorn.update()
                 self._update_bullets()
                 self._update_bombs()
+                self._update_troll_bullets()
                 self._update_trolls()
             self._update_screen()
 
@@ -103,6 +108,7 @@ class UnicornsForever:
 
             self.trolls.empty()
             self.bullets.empty()
+            self.troll_bullets.empty()
 
             self._create_hord()
             self.unicorn.center_unicorn()  
@@ -160,6 +166,16 @@ class UnicornsForever:
             self.bombs.add(new_bomb)
             self.settings.bombs_fired += 1
 
+    def _trolls_fires_bullets(self):
+        """Creating new Troll bullet and adding to bullets group."""
+        #if self.stats.level >= 3:
+        if len(self.trolls) < self.settings.trolls_starts_shoot:
+
+            #for n, troll in enumerate(self.trolls):
+            #for troll in range(len(self.trolls)):
+            for troll in self.trolls:
+                new_troll_bullet = TrollBullet(self)
+                self.troll_bullets.add(new_troll_bullet)
 
     def _update_bullets(self):
         """Bullets actualization and old bullets removing."""
@@ -170,6 +186,16 @@ class UnicornsForever:
                 self.bullets.remove(bullet)
 
         self._check_bullet_troll_colisions()
+
+    def _update_troll_bullets(self):
+        """Troll bullets actualization and old bullets removing."""
+        self.troll_bullets.update()
+
+        for troll_bullet in self.troll_bullets.copy():
+            if troll_bullet.rect.bottom >= self.unicorn.screen_rect.bottom:
+                self.troll_bullets.remove(troll_bullet)
+
+        self._check_unicorn_hit_by_troll_bullet()
 
     def _update_bombs(self):
         """Bombs actualization and old bombs removing."""
@@ -183,15 +209,23 @@ class UnicornsForever:
 
     def _check_bullet_troll_colisions(self):
         """Reaction for collision of bullet and troll."""
-        colisions = pygame.sprite.groupcollide(self.bullets, self.trolls, True, True)
+        #self.unicorns.add(self.unicorn)
+        unicorn_colisions = pygame.sprite.groupcollide(self.bullets, self.trolls, True, True)
 
-        if colisions:
-            for trolls in colisions.values():
+        if unicorn_colisions:
+            for trolls in unicorn_colisions.values():
                 self.stats.score += self.settings.troll_points * len(trolls)
             self.sb.prep_score()
             self.sb.check_high_score()
 
         self.next_level()
+
+    def _check_unicorn_hit_by_troll_bullet(self):
+        """Reaction for unicorn hit by troll bullet."""
+        troll_bullets_colisions = pygame.sprite.groupcollide(self.troll_bullets, self.unicorns, True, True)
+
+        if troll_bullets_colisions:
+            self._unicorn_hit()
 
     def _check_bombs_troll_colisions(self):
         """Reaction for collision of bomb and troll."""
@@ -210,6 +244,7 @@ class UnicornsForever:
         if not self.trolls:
             self.bullets.empty()
             self.bombs.empty()
+            self.troll_bullets.empty()
             self._create_hord()
             self.settings.increase_speed()
 
@@ -228,6 +263,7 @@ class UnicornsForever:
         """Reaction for Troll on the screen edge."""
         for troll in self.trolls.sprites():
             if troll.check_edges():
+                self._trolls_fires_bullets()
                 self._change_hord_direction()
                 break
 
@@ -273,11 +309,12 @@ class UnicornsForever:
             self.trolls.empty()
             self.bullets.empty()
             self.bombs.empty()
+            self.troll_bullets.empty()
 
             self._create_hord()
             self.unicorn.center_unicorn()
 
-            sleep(0.5)
+            sleep(1.0)
 
         else:
             self.stats.game_active = False
@@ -302,6 +339,9 @@ class UnicornsForever:
 
         for bomb in self.bombs.sprites():
             bomb.draw_bomb()
+
+        for troll_bullet in self.troll_bullets.sprites():
+            troll_bullet.draw_troll_bullet()
         
         self.trolls.draw(self.screen)
 
