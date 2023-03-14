@@ -6,8 +6,8 @@ class Instructions():
         self.screen = uf_game.screen
         self.screen_rect = uf_game.screen.get_rect()
 
-        self.width, self.height = 600, 650
-        self.button_color = (0, 255, 0) # inne kolory
+        self.width, self.height = 600, 700
+        self.button_color = (0, 255, 0)
         self.text_color = (255, 255, 255) 
         self.font = pygame.font.SysFont(None, 22)
 
@@ -30,9 +30,8 @@ class Instructions():
 
 
     def draw_instructions(self, instructions_file):
-        """Draws instructions on the screen."""
+        """Draws instructions on the screen with instructions inside."""
         self.screen.fill(self.button_color, self.rect)
-        #self.screen.blit(self.instructions_image, self.instructions_image_rect)
         with open(instructions_file) as instr_file_object:
             lines = instr_file_object.readlines()
             for n, line in enumerate(lines):

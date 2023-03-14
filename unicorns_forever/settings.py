@@ -10,10 +10,10 @@ class Settings:
         self.bullet_width = 3
         self.bullet_height = 15
         self.bullet_color = (60, 60, 60)
-        self.bullets_allowed = 10
+        self.bullets_allowed = 3
 
-        self.troll_bullet_width = 10
-        self.troll_bullet_height = 30
+        self.troll_bullet_width = 8
+        self.troll_bullet_height = 25
         self.troll_bullet_color = (90, 160, 100)
 
         self.bomb_width = 20
@@ -23,7 +23,8 @@ class Settings:
         self.bombs_limit = 1
 
         self.hord_drop_speed = 10
-        self.trolls_starts_shoot = 20
+        self.trolls_starts_shoot_max = 6
+        self.trolls_starts_shoot_min = 2
 
         self.speed_up_scale = 1.1
         self.score_scale = 1.5

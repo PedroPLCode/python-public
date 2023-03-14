@@ -7,7 +7,7 @@ class HelpButton():
         self.screen_rect = uf_game.screen.get_rect()
 
         self.width, self.height = 200, 55
-        self.button_color = (0, 255, 0) # inne kolory
+        self.button_color = (0, 255, 0) 
         self.text_color = (255, 255, 255) 
         self.font = pygame.font.SysFont(None, 48)
 
@@ -25,7 +25,7 @@ class HelpButton():
         self.help_msg_image_rect.center = self.rect.center
 
     def draw_help_button(self):
-        """Draws a button with message."""
+        """Draws a button with message inside."""
         self.screen.fill(self.button_color, self.rect)
         self.screen.blit(self.help_msg_image, self.help_msg_image_rect)
 

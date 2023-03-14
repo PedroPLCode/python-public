@@ -1,7 +1,8 @@
-import sys
-from time import sleep
-
 import pygame
+import sys
+
+from random import randint
+from time import sleep
 
 from settings import Settings
 from game_stats import GameStats
@@ -23,11 +24,11 @@ class UnicornsForever:
         """Game initialization."""
         pygame.init()
         self.settings = Settings()
-        #self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-        self.screen = pygame.display.set_mode((1200, 800))
+        #self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN) #change fo fullscreen mode
+        self.screen = pygame.display.set_mode((1200, 800)) #window size mode
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
-        pygame.display.set_caption("Unicorns Forever")
+        pygame.display.set_caption("Unicorns Forever") 
 
         self.stats = GameStats(self)
         self.sb = ScoreBoard(self)
@@ -43,9 +44,9 @@ class UnicornsForever:
 
         self.game_active = False
         self.info_board_active = False
-        self.play_button = Button(self, msg="g - Game")
+        self.play_button = Button(self, msg="g - Game") #language change here
         self.help_button = HelpButton(self, help_msg="h - Help")
-        self.instructions = Instructions(self, instructions_file='readme.txt')
+        self.instructions = Instructions(self, instructions_file='readmeEN.txt') #select instructions file
         self.quit_button = QuitButton(self, quit_msg="q - Quit")
 
 
@@ -78,6 +79,13 @@ class UnicornsForever:
         """New game starts after key G press"""
         if True and not self.stats.game_active:
             self.start_new_round()
+
+    def _check_h_key(self):
+        """Reaction to h key press."""
+        if not self.info_board_active:
+            self.info_board_active = True
+        elif self.info_board_active:
+            self.info_board_active = False
 
     def _check_play_button(self, mouse_pos):
         """New game starts after Play button."""
@@ -125,7 +133,7 @@ class UnicornsForever:
         """Key down reaction."""
         if event.key == pygame.K_g:
             self._check_g_key()
-        elif event.key == pygame.K_h:
+        elif event.key == pygame.K_h or event.key == pygame.K_p:
             self._check_h_key()
         elif event.key == pygame.K_RIGHT:
             self.unicorn.moving_right = True
@@ -139,7 +147,7 @@ class UnicornsForever:
             self._fire_bullet()
         elif event.key == pygame.K_b:
             self._fire_bomb()
-        elif event.key == pygame.K_q:
+        elif event.key == pygame.K_q or event.key == pygame.K_w:
             sys.exit()
 
     def _check_keyup_events(self, event):
@@ -154,31 +162,29 @@ class UnicornsForever:
             self.unicorn.moving_up = False
 
     def _fire_bullet(self):
-        """Creating new bullet and adding to bullets group."""
+        """Creating new bullet is allowed and adding to bullets group."""
         if len(self.bullets) < self.settings.bullets_allowed:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
 
     def _fire_bomb(self):
-        """Creating new Bomb and adding to bombs group."""
+        """Creating new Bomb if allowed and adding to bombs group."""
         if len(self.bombs) < self.settings.bombs_allowed and self.settings.bombs_fired < self.settings.bombs_limit:
             new_bomb = Bomb(self)
             self.bombs.add(new_bomb)
             self.settings.bombs_fired += 1
 
     def _trolls_fires_bullets(self):
-        """Creating new Troll bullet and adding to bullets group."""
-        #if self.stats.level >= 3:
-        if len(self.trolls) < self.settings.trolls_starts_shoot:
-
-            #for n, troll in enumerate(self.trolls):
-            #for troll in range(len(self.trolls)):
-            for troll in self.trolls:
-                new_troll_bullet = TrollBullet(self)
+        """checking if Trolls starting to shooting back
+        if True creating new Troll bullet and adding to bullets group.
+        """
+        if len(self.trolls) < randint(self.settings.trolls_starts_shoot_min, self.settings.trolls_starts_shoot_max):
+            for shooting_troll in self.trolls:
+                new_troll_bullet = TrollBullet(self, shooting_troll)
                 self.troll_bullets.add(new_troll_bullet)
 
     def _update_bullets(self):
-        """Bullets actualization and old bullets removing."""
+        """Bullets actualization and old bullets out of screen removing."""
         self.bullets.update()
 
         for bullet in self.bullets.copy():
@@ -188,7 +194,7 @@ class UnicornsForever:
         self._check_bullet_troll_colisions()
 
     def _update_troll_bullets(self):
-        """Troll bullets actualization and old bullets removing."""
+        """Troll bullets actualization and old bullets out of screen removing."""
         self.troll_bullets.update()
 
         for troll_bullet in self.troll_bullets.copy():
@@ -198,7 +204,7 @@ class UnicornsForever:
         self._check_unicorn_hit_by_troll_bullet()
 
     def _update_bombs(self):
-        """Bombs actualization and old bombs removing."""
+        """Bombs actualization and old bombs out of screen removing."""
         self.bombs.update()
 
         for bomb in self.bombs.copy():
@@ -209,11 +215,10 @@ class UnicornsForever:
 
     def _check_bullet_troll_colisions(self):
         """Reaction for collision of bullet and troll."""
-        #self.unicorns.add(self.unicorn)
-        unicorn_colisions = pygame.sprite.groupcollide(self.bullets, self.trolls, True, True)
+        bullet_colisions = pygame.sprite.groupcollide(self.bullets, self.trolls, True, True)
 
-        if unicorn_colisions:
-            for trolls in unicorn_colisions.values():
+        if bullet_colisions:
+            for trolls in bullet_colisions.values():
                 self.stats.score += self.settings.troll_points * len(trolls)
             self.sb.prep_score()
             self.sb.check_high_score()
@@ -221,7 +226,8 @@ class UnicornsForever:
         self.next_level()
 
     def _check_unicorn_hit_by_troll_bullet(self):
-        """Reaction for unicorn hit by troll bullet."""
+        """Reaction for unicorn hit by ugly troll bullet."""
+        #troll_bullets_colisions = pygame.sprite.spritecollideany(self.unicorn, self.trolls):
         troll_bullets_colisions = pygame.sprite.groupcollide(self.troll_bullets, self.unicorns, True, True)
 
         if troll_bullets_colisions:
@@ -240,7 +246,7 @@ class UnicornsForever:
         self.next_level()
 
     def next_level(self):
-        """Next level."""
+        """cheching if we have trolls. If not, goung to next level."""
         if not self.trolls:
             self.bullets.empty()
             self.bombs.empty()
@@ -263,7 +269,6 @@ class UnicornsForever:
         """Reaction for Troll on the screen edge."""
         for troll in self.trolls.sprites():
             if troll.check_edges():
-                self._trolls_fires_bullets()
                 self._change_hord_direction()
                 break
 
@@ -271,10 +276,11 @@ class UnicornsForever:
         """Hord moving down and charne direction."""
         for troll in self.trolls.sprites():
             troll.rect.y += self.settings.hord_drop_speed
+            self._trolls_fires_bullets()
         self.settings.hord_direction *= -1
 
     def _create_hord(self):
-        """Creating Trolls Hord."""
+        """Creating Hord of ugly Trolls."""
         troll = Troll(self)
         troll_width, troll_height = troll.rect.size
         available_space_x = self.settings.screen_width - (2 * troll_width)
@@ -298,7 +304,7 @@ class UnicornsForever:
         self.trolls.add(troll)
 
     def _unicorn_hit(self):
-        """Unicorn hit by Troll reaction."""
+        """Unicorn hit by Troll or trolls bullet reaction."""
 
         if self.stats.unicorns_left > 0:
 
@@ -320,7 +326,6 @@ class UnicornsForever:
             self.stats.game_active = False
             pygame.mouse.set_visible(True)
 
-
     def _check_trolls_bottom(self):
         """checking if any Troll gets to the bottonm of the screen."""
         screen_rect = self.screen.get_rect()
@@ -330,7 +335,7 @@ class UnicornsForever:
                 break
 
     def _update_screen(self):
-        """Updating screen view."""
+        """Updating battlefield view."""
         self.screen.fill(self.settings.bg_color)
         self.unicorn.blitme()
 
@@ -354,16 +359,7 @@ class UnicornsForever:
             if self.info_board_active:
                 self.instructions.draw_instructions(self.settings.instructions_file)
 
-        pygame.display.flip() # ostatni ekran
-
-
-    def _check_h_key(self):
-        """Reaction to h key press."""
-        if not self.info_board_active:
-            self.info_board_active = True
-        elif self.info_board_active:
-            self.info_board_active = False
-
+        pygame.display.flip()
 
 if __name__=='__main__':
     uf = UnicornsForever()

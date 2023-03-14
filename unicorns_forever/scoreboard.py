@@ -68,7 +68,7 @@ class ScoreBoard():
         self.level_rect.top = self.score_rect.bottom + 10
 
     def prep_unicorns(self):
-        """Shows unicorns left."""
+        """Shows how much unicorns left."""
         self.unicorns = Group()
         for unicorn_number in range(self.stats.unicorns_left):
             unicorn = Unicorn(self.uf_game)

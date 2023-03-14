@@ -50,7 +50,7 @@ class Unicorn(Sprite):
         self.rect_y = self.y
 
     def blitme(self):
-        """Shows unicorn in current location."""
+        """Shows unicorn in current location on the screen."""
 
         self.screen.blit(self.image, self.rect)
 

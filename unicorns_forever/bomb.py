@@ -24,6 +24,6 @@ class Bomb(Sprite):
         self.rect.y = self.y
 
     def draw_bomb(self):
-        """Shows bomb."""
+        """Shows bomb on the screen."""
 
         pygame.draw.ellipse(self.screen, self.color, self.rect)

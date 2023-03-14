@@ -4,8 +4,8 @@ from pygame.sprite import Sprite
 class TrollBullet(Sprite):
     """Troll bullets management."""
 
-    def __init__(self, uf_game):
-        """Create bullet in current Troll position."""
+    def __init__(self, uf_game, shooting_troll):
+        """Create bullet in current shooting_troll position."""
 
         super().__init__()
         self.screen = uf_game.screen
@@ -13,10 +13,9 @@ class TrollBullet(Sprite):
         self.color = self.settings.troll_bullet_color
 
         self.rect = pygame.Rect(0, 0, self.settings.troll_bullet_width, self.settings.troll_bullet_height)
-        #for troll in uf_game.trolls.sprites():
-        for troll in uf_game.trolls:
-            self.rect.midtop = troll.rect.midbottom
-            self.y = float(self.rect.y)
+        
+        self.rect.midtop = shooting_troll.rect.midbottom
+        self.y = float(self.rect.y)
 
 
     def update(self):
@@ -26,6 +25,6 @@ class TrollBullet(Sprite):
         self.rect.y = self.y
 
     def draw_troll_bullet(self):
-        """Shows troll bullet."""
+        """Shows troll bullet on the screen."""
 
         pygame.draw.ellipse(self.screen, self.color, self.rect)

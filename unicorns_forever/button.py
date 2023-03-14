@@ -23,6 +23,6 @@ class Button():
         self.msg_image_rect.center = self.rect.center
 
     def draw_button(self):
-        """Draws a button with message."""
+        """Draws a button with message inside."""
         self.screen.fill(self.button_color, self.rect)
         self.screen.blit(self.msg_image, self.msg_image_rect)

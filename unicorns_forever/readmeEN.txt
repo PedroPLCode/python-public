@@ -1,5 +1,5 @@
 -= Unicorn Forever Game =-
-last update 12.03.2023 - pedro
+last update 14.03.2023 - pedro
 
 Instructions:
 
@@ -18,6 +18,8 @@ q - quit game
 h - show / hide help info 
 g - start game
 
-You have 3 Unicorns.
+You have 3 Unicorns. Keep them alive.
 
-At next levels, game will be faster.
+Sometimes trolls are shooting back.
+
+At next levels, game is getting faster.
