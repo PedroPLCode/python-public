@@ -60,7 +60,7 @@ class ScoreBoard():
 
     def prep_level(self):
         """Shows current Level."""
-        level_str = str(f"{self.settings.level_text} {self.stats.level}") # here settings
+        level_str = str(f"{self.settings.level_text} {self.stats.level}")
         self.level_image = self.font.render(level_str, True, self.text_color, self.settings.bg_color)
 
         self.level_rect = self.level_image.get_rect()
