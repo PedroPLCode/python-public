@@ -15,11 +15,11 @@ class Instructions():
         self.rect = pygame.Rect(0, 0, self.width, self.height)
         self.rect.midtop = self.screen_rect.midtop
 
+        instructions_file = self.settings.instructions_file
         self._prep_info(instructions_file)
 
     def _prep_info(self, instructions_file):
         """Instructions from txt file preparation."""
-        instructions_file = self.settings.instructions_file
         with open(instructions_file) as instr_file_object:
             lines = instr_file_object.readlines()
             for n, line in enumerate(lines):

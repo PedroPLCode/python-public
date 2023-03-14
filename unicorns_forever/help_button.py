@@ -15,11 +15,11 @@ class HelpButton():
         self.rect = pygame.Rect(0, 0, self.width, self.height)
         self.rect.topleft = self.screen_rect.topleft
 
+        help_msg = self.settings.help_msg
         self._prep_help_msg(help_msg)
 
     def _prep_help_msg(self, help_msg):
         """Message into the button."""
-        help_msg = self.settings.help_msg
         self.help_msg_image = self.font.render(help_msg, True, self.text_color, self.button_color)
         self.help_msg_image_rect = self.help_msg_image.get_rect()
         self.help_msg_image_rect.center = self.rect.center

@@ -12,11 +12,9 @@ class Unicorn(Sprite):
         self.settings = uf_game.settings
         self.screen_rect = uf_game.screen.get_rect()
 
-        self.image_up = pygame.image.load('/home/pedro/Dokumenty/python-public/unicorns_forever/images/unicornUP.bmp')
-        self.imageup_down = pygame.image.load('/home/pedro/Dokumenty/python-public/unicorns_forever/images/unicornDOWN.bmp')
-        self.imageup_left = pygame.image.load('/home/pedro/Dokumenty/python-public/unicorns_forever/images/unicornL.bmp')
-        self.image_right = pygame.image.load('/home/pedro/Dokumenty/python-public/unicorns_forever/images/unicornR.bmp')
-        self.image = self.image_up
+        self.image_left = pygame.image.load(self.settings.unicorn_image_left)
+        self.image_right = pygame.image.load(self.settings.unicorn_image_right)
+        self.image = self.image_right
         
         self.rect = self.image.get_rect()
 
@@ -38,13 +36,11 @@ class Unicorn(Sprite):
             self.image = self.image_right
         if self.moving_left and self.rect.left > 0:
             self.rect.x -= self.settings.unicorn_speed_left_right
-            self.image = self.imageup_left
+            self.image = self.image_left
         if self.moving_up and self.rect.top > 0:
             self.rect.y -= self.settings.unicorn_speed_up_down
-            self.image = self.image_up
         if self.moving_down and self.rect.bottom < self.screen_rect.bottom:
             self.rect.y += self.settings.unicorn_speed_up_down
-            self.image = self.imageup_down
 
         self.rect_x = self.x
         self.rect_y = self.y

@@ -24,7 +24,7 @@ class UnicornsForever:
         pygame.init()
         self.settings = Settings()
         #self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN) #change fo fullscreen mode
-        self.screen = pygame.display.set_mode((1200, 800)) #window size mode
+        self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height)) #window size mode
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Unicorns Forever") 
@@ -161,7 +161,7 @@ class UnicornsForever:
             self.unicorn.moving_up = False
 
     def _fire_bullet(self):
-        """Creating new bullet is allowed and adding to bullets group."""
+        """Creating new bullet if allowed and adding to bullets group."""
         if len(self.bullets) < self.settings.bullets_allowed:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
@@ -177,7 +177,7 @@ class UnicornsForever:
         """checking if Trolls starting to shooting back
         if True creating new Troll bullet and adding to bullets group.
         """
-        if len(self.trolls) < self.settings.trolls_starts_shoot:
+        if len(self.trolls) < self.settings.trolls_starts_shoot and self.stats.level > 1:
             for n, shooting_troll in enumerate(self.trolls):
                 if n % 3 == 0:
                     new_troll_bullet = TrollBullet(self, shooting_troll)
@@ -227,6 +227,7 @@ class UnicornsForever:
 
     def _check_unicorn_hit_by_troll_bullet(self):
         """Reaction for unicorn hit by ugly troll bullet."""
+        # check if that works
         #troll_bullets_colisions = pygame.sprite.spritecollideany(self.unicorn, self.trolls):
         troll_bullets_colisions = pygame.sprite.groupcollide(self.troll_bullets, self.unicorns, True, True)
 

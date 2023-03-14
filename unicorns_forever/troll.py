@@ -10,7 +10,7 @@ class Troll(Sprite):
         self.screen = uf_game.screen
         self.settings = uf_game.settings
 
-        self.image = pygame.image.load('/home/pedro/Dokumenty/python-public/unicorns_forever/images/troll.bmp')
+        self.image = pygame.image.load(self.settings.troll_image) 
         self.rect = self.image.get_rect()
 
         self.rect.x = self.rect.width

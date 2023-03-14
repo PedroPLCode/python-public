@@ -15,11 +15,11 @@ class QuitButton():
         self.rect = pygame.Rect(0, 0, self.width, self.height)
         self.rect.topright = self.screen_rect.topright
 
+        quit_msg = self.settings.quit_msg
         self._prep_quit_msg(quit_msg)
 
     def _prep_quit_msg(self, quit_msg):
         """Message into the button."""
-        quit_msg = self.settings.quit_msg
         self.quit_msg_image = self.font.render(quit_msg, True, self.text_color, self.button_color)
         self.quit_msg_image_rect = self.quit_msg_image.get_rect()
         self.quit_msg_image_rect.center = self.rect.center
