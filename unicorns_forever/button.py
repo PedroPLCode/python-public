@@ -3,6 +3,7 @@ import pygame.font
 class Button():
     def __init__(self, uf_game, msg):
         """Button initialization."""
+        self.settings = uf_game.settings
         self.screen = uf_game.screen
         self.screen_rect = uf_game.screen.get_rect()
 
@@ -18,6 +19,7 @@ class Button():
 
     def _prep_msg(self, msg):
         """Message into the button."""
+        msg = self.settings.msg
         self.msg_image = self.font.render(msg, True, self.text_color, self.button_color)
         self.msg_image_rect = self.msg_image.get_rect()
         self.msg_image_rect.center = self.rect.center

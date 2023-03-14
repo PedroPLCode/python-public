@@ -1,3 +1,5 @@
+from random import randint
+
 class Settings:
     """Storing all settings used in game."""
 
@@ -23,15 +25,19 @@ class Settings:
         self.bombs_limit = 1
 
         self.hord_drop_speed = 10
-        self.trolls_starts_shoot_max = 6
-        self.trolls_starts_shoot_min = 2
+        self.trolls_starts_shoot_max = 12
+        self.trolls_starts_shoot_min = 6
+        self.trolls_starts_shoot = randint(self.trolls_starts_shoot_min, self.trolls_starts_shoot_max)
 
         self.speed_up_scale = 1.1
         self.score_scale = 1.5
         self.new_bombs = 1
 
+        self.msg = "GamE"
+        self.quit_msg = 'QuiT'
+        self.help_msg = 'HelP'
         self.filename = 'unicorns_forever/high_score.json'
-        self.instructions_file = 'unicorns_forever/readme.txt'
+        self.instructions_file = 'unicorns_forever/readmePL.txt'
 
         self.initialize_dynamic_settings()
 

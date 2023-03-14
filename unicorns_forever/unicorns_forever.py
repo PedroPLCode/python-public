@@ -1,7 +1,6 @@
 import pygame
 import sys
 
-from random import randint
 from time import sleep
 
 from settings import Settings
@@ -32,9 +31,14 @@ class UnicornsForever:
 
         self.stats = GameStats(self)
         self.sb = ScoreBoard(self)
+
+        self.play_button = Button(self, self.settings.msg)
+        self.help_button = HelpButton(self, self.settings.help_msg)
+        self.quit_button = QuitButton(self, self.settings.quit_msg)
+        self.instructions = Instructions(self, self.settings.instructions_file)
         
         self.unicorn = Unicorn(self)
-        self.unicorns = pygame.sprite.Group()
+        self.unicorns = pygame.sprite.Group() #maybe not needed
         self.bullets = pygame.sprite.Group()
         self.bombs = pygame.sprite.Group()
         self.troll_bullets = pygame.sprite.Group()
@@ -44,12 +48,7 @@ class UnicornsForever:
 
         self.game_active = False
         self.info_board_active = False
-        self.play_button = Button(self, msg="g - Game") #language change here
-        self.help_button = HelpButton(self, help_msg="h - Help")
-        self.instructions = Instructions(self, instructions_file='readmeEN.txt') #select instructions file
-        self.quit_button = QuitButton(self, quit_msg="q - Quit")
-
-
+        
     def run_game(self):
         """Game main loop."""
         self.unicorns.add(self.unicorn)
@@ -178,10 +177,11 @@ class UnicornsForever:
         """checking if Trolls starting to shooting back
         if True creating new Troll bullet and adding to bullets group.
         """
-        if len(self.trolls) < randint(self.settings.trolls_starts_shoot_min, self.settings.trolls_starts_shoot_max):
-            for shooting_troll in self.trolls:
-                new_troll_bullet = TrollBullet(self, shooting_troll)
-                self.troll_bullets.add(new_troll_bullet)
+        if len(self.trolls) < self.settings.trolls_starts_shoot:
+            for n, shooting_troll in enumerate(self.trolls):
+                if n % 3 == 0:
+                    new_troll_bullet = TrollBullet(self, shooting_troll)
+                    self.troll_bullets.add(new_troll_bullet)
 
     def _update_bullets(self):
         """Bullets actualization and old bullets out of screen removing."""

@@ -3,6 +3,7 @@ import pygame.font
 class QuitButton():
     def __init__(self, uf_game, quit_msg):
         """Button initialization."""
+        self.settings = uf_game.settings
         self.screen = uf_game.screen
         self.screen_rect = uf_game.screen.get_rect()
 
@@ -16,10 +17,9 @@ class QuitButton():
 
         self._prep_quit_msg(quit_msg)
 
-    quit_msg = "Quit"
-
     def _prep_quit_msg(self, quit_msg):
         """Message into the button."""
+        quit_msg = self.settings.quit_msg
         self.quit_msg_image = self.font.render(quit_msg, True, self.text_color, self.button_color)
         self.quit_msg_image_rect = self.quit_msg_image.get_rect()
         self.quit_msg_image_rect.center = self.rect.center

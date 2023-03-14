@@ -3,6 +3,7 @@ import pygame.font
 class HelpButton():
     def __init__(self, uf_game, help_msg):
         """Button initialization."""
+        self.settings = uf_game.settings
         self.screen = uf_game.screen
         self.screen_rect = uf_game.screen.get_rect()
 
@@ -16,10 +17,9 @@ class HelpButton():
 
         self._prep_help_msg(help_msg)
 
-    help_msg = "Help"
-
     def _prep_help_msg(self, help_msg):
         """Message into the button."""
+        help_msg = self.settings.help_msg
         self.help_msg_image = self.font.render(help_msg, True, self.text_color, self.button_color)
         self.help_msg_image_rect = self.help_msg_image.get_rect()
         self.help_msg_image_rect.center = self.rect.center
