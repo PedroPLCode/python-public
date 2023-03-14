@@ -27,7 +27,7 @@ class Settings:
         self.hord_drop_speed = 10
         self.trolls_starts_shoot_max = 12
         self.trolls_starts_shoot_min = 6
-        self.trolls_starts_shoot = randint(self.trolls_starts_shoot_min, self.trolls_starts_shoot_max)
+        self.when_trolls_starts_shoot = randint(self.trolls_starts_shoot_min, self.trolls_starts_shoot_max)
 
         self.speed_up_scale = 1.1
         self.score_scale = 1.5
