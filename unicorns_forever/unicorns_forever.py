@@ -38,7 +38,7 @@ class UnicornsForever:
         self.instructions = Instructions(self, self.settings.instructions_file)
         
         self.unicorn = Unicorn(self)
-        self.unicorns = pygame.sprite.Group() #maybe not needed
+        self.unicorns = pygame.sprite.Group() 
         self.bullets = pygame.sprite.Group()
         self.bombs = pygame.sprite.Group()
         self.troll_bullets = pygame.sprite.Group()
@@ -227,8 +227,6 @@ class UnicornsForever:
 
     def _check_unicorn_hit_by_troll_bullet(self):
         """Reaction for unicorn hit by ugly troll bullet."""
-        # check if that works
-        #troll_bullets_colisions = pygame.sprite.spritecollideany(self.unicorn, self.trolls):
         troll_bullets_colisions = pygame.sprite.groupcollide(self.troll_bullets, self.unicorns, True, True)
 
         if troll_bullets_colisions:

@@ -56,7 +56,7 @@ class ScoreBoard():
         if self.stats.score > self.stats.high_score:
             self.stats.high_score = self.stats.score
             self.prep_high_score()
-            self.stats.save_new_high_score(self.stats.score)
+            self.stats.save_new_high_score(self.stats.score, self.settings.filename)
 
     def prep_level(self):
         """Shows current Level."""
