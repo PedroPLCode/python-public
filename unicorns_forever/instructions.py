@@ -7,10 +7,10 @@ class Instructions():
         self.screen = uf_game.screen
         self.screen_rect = uf_game.screen.get_rect()
 
-        self.width, self.height = 600, 700
-        self.button_color = (0, 255, 0)
-        self.text_color = (255, 255, 255) 
-        self.font = pygame.font.SysFont(None, 22)
+        self.width, self.height = self.settings.instr_width, self.settings.instr_height
+        self.button_color = self.settings.buttons_color
+        self.text_color = self.settings.text_color 
+        self.font = pygame.font.SysFont(None, self.settings.instr_font_size)
 
         self.rect = pygame.Rect(0, 0, self.width, self.height)
         self.rect.midtop = self.screen_rect.midtop

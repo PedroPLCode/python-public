@@ -7,10 +7,10 @@ class Button():
         self.screen = uf_game.screen
         self.screen_rect = uf_game.screen.get_rect()
 
-        self.width, self.height = 200, 60
-        self.button_color = (0, 255, 0)
-        self.text_color = (255, 255, 255)
-        self.font = pygame.font.SysFont(None, 48)
+        self.width, self.height = self.settings.buttons_width, self.settings.buttons_height
+        self.button_color = self.settings.buttons_color
+        self.text_color = self.settings.text_color
+        self.font = pygame.font.SysFont(None, self.settings.buttons_font_size)
 
         self.rect = pygame.Rect(0, 0, self.width, self.height)
         self.rect.center = self.screen_rect.center

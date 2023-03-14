@@ -6,23 +6,34 @@ class Settings:
     def __init__(self):
         self.screen_width = 1200
         self.screen_height = 800
-        self.bg_color = (230, 230, 230)
+        self.bg_color = (230, 230, 230) #change
         self.unicorns_limit = 3
 
         self.bullet_width = 3
         self.bullet_height = 15
-        self.bullet_color = (60, 60, 60)
+        self.bullet_color = (60, 60, 60) #change
         self.bullets_allowed = 3
 
         self.troll_bullet_width = 8
         self.troll_bullet_height = 25
-        self.troll_bullet_color = (90, 160, 100)
+        self.troll_bullet_color = (90, 160, 100) #change
 
         self.bomb_width = 20
         self.bomb_height = 20
-        self.bomb_color = (60, 60, 60)
+        self.bomb_color = (60, 60, 60) #change
         self.bombs_allowed = 1
         self.bombs_limit = 1
+
+        self.buttons_color = (0, 255, 0) #change
+        self.text_color = (255, 255, 255) #change
+        self.buttons_font_size = 48
+
+        self.buttons_width = 210
+        self.buttons_height = 55
+
+        self.instr_width = 600
+        self.instr_height = 700
+        self.instr_font_size = 22
 
         self.hord_drop_speed = 10
         self.trolls_starts_shoot_max = 18
