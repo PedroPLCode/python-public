@@ -48,16 +48,17 @@ class Settings:
         self.msg = "g - Game"
         self.quit_msg = 'q - Quit'
         self.help_msg = 'h - Help'
+        self.score_text = 'score: '
+        self.high_score_text = 'high score: '
+        self.level_text = 'level: '
 
-        # information file
+        # information file change here
         self.instructions_file = 'unicorns_forever/readmeEN.txt'
 
-        # bmp files used in game.
         self.troll_image = 'unicorns_forever/images/troll.bmp'
         self.unicorn_image_left = 'unicorns_forever/images/unicornL.bmp'
         self.unicorn_image_right = 'unicorns_forever/images/unicornR.bmp'
  
-        # json file for storing highest score
         self.filename = 'unicorns_forever/high_score.json'
 
         self.initialize_dynamic_settings()

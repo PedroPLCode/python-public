@@ -16,8 +16,8 @@ class ScoreBoard():
         self.settings = uf_game.settings
         self.stats = uf_game.stats
 
-        self.text_color = (30, 30, 30)
-        self.font = pygame.font.SysFont(None, 48)
+        self.text_color = self.settings.buttons_color
+        self.font = pygame.font.SysFont(None, self.settings.buttons_font_size)
 
         self.prep_score()
         self.prep_high_score()
@@ -27,7 +27,7 @@ class ScoreBoard():
     def prep_score(self):
         """Generationg score board"""
         rounded_score = round(self.stats.score, -1)
-        score_str = "score: {:,}".format(rounded_score)
+        score_str = f"{self.settings.score_text} {format(rounded_score)}"
         self.score_image = self.font.render(score_str, True, self.text_color, self.settings.bg_color)
 
         self.score_rect = self.score_image.get_rect()
@@ -37,7 +37,7 @@ class ScoreBoard():
     def prep_high_score(self):
         """Highest score in game."""
         high_score = round(self.stats.high_score, -1)
-        high_score_str = "high score: {:,}".format(high_score)
+        high_score_str = f"{self.settings.high_score_text} {format(high_score)}" 
         self.high_score_image = self.font.render(high_score_str, True, self.text_color, self.settings.bg_color)
 
         self.high_score_rect = self.high_score_image.get_rect()
@@ -60,7 +60,7 @@ class ScoreBoard():
 
     def prep_level(self):
         """Shows current Level."""
-        level_str = str(f"level: {self.stats.level}")
+        level_str = str(f"{self.settings.level_text} {self.stats.level}") # here settings
         self.level_image = self.font.render(level_str, True, self.text_color, self.settings.bg_color)
 
         self.level_rect = self.level_image.get_rect()
