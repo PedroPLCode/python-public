@@ -55,7 +55,8 @@ class Settings:
         # information file change here
         self.instructions_file = 'unicorns_forever/readmeEN.txt'
 
-        self.troll_image = 'unicorns_forever/images/troll.bmp'
+        self.troll_image_left = 'unicorns_forever/images/trollL.bmp'
+        self.troll_image_right = 'unicorns_forever/images/trollR.bmp'
         self.unicorn_image_left = 'unicorns_forever/images/unicornL.bmp'
         self.unicorn_image_right = 'unicorns_forever/images/unicornR.bmp'
  

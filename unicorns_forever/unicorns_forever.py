@@ -227,7 +227,7 @@ class UnicornsForever:
 
     def _check_unicorn_hit_by_troll_bullet(self):
         """Reaction for unicorn hit by ugly troll bullet."""
-        troll_bullets_colisions = pygame.sprite.groupcollide(self.troll_bullets, self.unicorns, True, True)
+        troll_bullets_colisions = pygame.sprite.groupcollide(self.troll_bullets, self.unicorns, False, True)
 
         if troll_bullets_colisions:
             self._unicorn_hit()
@@ -277,6 +277,12 @@ class UnicornsForever:
             troll.rect.y += self.settings.hord_drop_speed
             self._trolls_fires_bullets()
         self.settings.hord_direction *= -1
+
+        if self.settings.hord_direction == 1:
+            self.trolls.image = self.settings.troll_image_left
+        elif self.settings.hord_direction == -1:
+            self.trolls.image = self.settings.troll_image_right
+            
 
     def _create_hord(self):
         """Creating Hord of ugly Trolls."""
