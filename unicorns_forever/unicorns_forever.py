@@ -277,13 +277,7 @@ class UnicornsForever:
             troll.rect.y += self.settings.hord_drop_speed
             self._trolls_fires_bullets()
         self.settings.hord_direction *= -1
-
-        if self.settings.hord_direction == 1:
-            self.trolls.image = self.settings.troll_image_left
-        elif self.settings.hord_direction == -1:
-            self.trolls.image = self.settings.troll_image_right
             
-
     def _create_hord(self):
         """Creating Hord of ugly Trolls."""
         troll = Troll(self)
