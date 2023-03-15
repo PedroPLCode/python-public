@@ -38,7 +38,7 @@ class UnicornsForever:
         self.instructions = Instructions(self, self.settings.instructions_file)
         
         self.unicorn = Unicorn(self)
-        self.unicorns = pygame.sprite.Group() 
+        #self.unicorns = pygame.sprite.Group() 
         self.bullets = pygame.sprite.Group()
         self.bombs = pygame.sprite.Group()
         self.troll_bullets = pygame.sprite.Group()
@@ -51,7 +51,7 @@ class UnicornsForever:
         
     def run_game(self):
         """Game main loop."""
-        self.unicorns.add(self.unicorn)
+        #self.unicorns.add(self.unicorn)
         while True:
             self._check_events()
             if self.stats.game_active:
@@ -227,7 +227,7 @@ class UnicornsForever:
 
     def _check_unicorn_hit_by_troll_bullet(self):
         """Reaction for unicorn hit by ugly troll bullet."""
-        troll_bullets_colisions = pygame.sprite.groupcollide(self.troll_bullets, self.unicorns, False, True)
+        troll_bullets_colisions = pygame.sprite.spritecollideany(self.unicorn, self.troll_bullets)
 
         if troll_bullets_colisions:
             self._unicorn_hit()
