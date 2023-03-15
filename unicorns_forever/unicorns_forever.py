@@ -38,7 +38,6 @@ class UnicornsForever:
         self.instructions = Instructions(self, self.settings.instructions_file)
         
         self.unicorn = Unicorn(self)
-        #self.unicorns = pygame.sprite.Group() 
         self.bullets = pygame.sprite.Group()
         self.bombs = pygame.sprite.Group()
         self.troll_bullets = pygame.sprite.Group()
@@ -51,7 +50,6 @@ class UnicornsForever:
         
     def run_game(self):
         """Game main loop."""
-        #self.unicorns.add(self.unicorn)
         while True:
             self._check_events()
             if self.stats.game_active:

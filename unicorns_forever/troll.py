@@ -24,13 +24,14 @@ class Troll(Sprite):
 
     def update(self):
         """Troll moving left or right."""
-        self.x += (self.settings.troll_speed * self.settings.hord_direction)
-        self.rect.x = self.x
 
         if self.settings.hord_direction == 1:
             self.image = self.image_left
         elif self.settings.hord_direction == -1:
             self.image = self.image_right
+
+        self.x += (self.settings.troll_speed * self.settings.hord_direction)
+        self.rect.x = self.x
 
     def check_edges(self):
         """Returns True if Troll on edge."""
